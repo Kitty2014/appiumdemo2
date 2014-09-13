@@ -15,7 +15,8 @@ public class DataProvidersTest {
         prop.setProperty("abc", "def");
         prop.setProperty("123", "098");
 
-        DesiredCapabilitiesFromPropertyFileProvider dcp = new DesiredCapabilitiesFromPropertyFileProvider(prop);
+        DesiredCapabilitiesFromPropertyFileProvider dcp = new DesiredCapabilitiesFromPropertyFileProvider();
+        dcp.properties = prop;
 
         DesiredCapabilities dc = dcp.provide();
         assertEquals("def", dc.getCapability("abc"));

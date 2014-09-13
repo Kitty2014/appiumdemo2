@@ -1,36 +1,23 @@
 package com.cigniti.test;
 
+import static com.cigniti.test.dataproviders.DesiredCapabilitiesProviderFactory.getCapabilitiesProvider;
 
-import com.cigniti.test.dataproviders.DesiredCapabilitiesFromPropertyFileProvider;
-import com.cigniti.test.dataproviders.DesiredCapabilitiesProvider;
+import com.cigniti.test.dataproviders.ServerUrlProvider;
 import io.appium.java_client.AppiumDriver;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class DemoFixture {
 
-    private AppiumDriver driver;
-    private DesiredCapabilitiesProvider cdp;
-    private Logger logger = Logger.getLogger(this.getClass());
+    private RemoteWebDriver driver;
 
-    public DemoFixture() throws IOException {
-        cdp = new DesiredCapabilitiesFromPropertyFileProvider();
+    public void initiateSession() throws IOException {
+        driver = new AppiumDriver( ServerUrlProvider.provide(), getCapabilitiesProvider().provide());
     }
 
-    public DemoFixture(String attr) throws IOException {
-        cdp = new DesiredCapabilitiesFromPropertyFileProvider();
-    }
-
-    public void initiate() throws IOException {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        BasicConfigurator.configure();
-        logger.info(capabilities.toString());
-        driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), cdp.provide());
-        logger.info(capabilities.toString());
+    public void cleanupSession() {
+        driver.quit();
     }
 
 

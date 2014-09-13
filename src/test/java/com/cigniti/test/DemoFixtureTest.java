@@ -1,18 +1,25 @@
 package com.cigniti.test;
 
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class DemoFixtureTest {
 
+    private DemoFixture df;
+
     @Test
     public void shouldConnectAndLaunchApp() throws IOException {
-        DemoFixture df = new DemoFixture();
+        df = new DemoFixture();
 
-        df.initiate();
+        df.initiateSession();
 
+    }
+
+    @After
+    public void Teardown() {
+        df.cleanupSession();
     }
 
 }
