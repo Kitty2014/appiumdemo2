@@ -1,6 +1,9 @@
 package com.cigniti.test.sutmodel;
 
+import com.cigniti.test.exceptions.ScreenElementNotFoundException;
+
 import java.io.*;
+import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Properties;
@@ -17,6 +20,7 @@ public class ApplicationModelLoader {
     public void loadModelFromFiles(ApplicationModel model) throws IOException {
         Properties screens = loadScreenDirsPaths();
         for (String screenName: screens.stringPropertyNames()) {
+            System.out.println("processing screen dir: " + screenName);
             BasicScreen screen = loadAllElements(screenName, screens.getProperty(screenName));
             model.loadScreen(screenName, screen);
         }
@@ -28,30 +32,41 @@ public class ApplicationModelLoader {
 
     private BasicScreen loadAllElements(String name, String screenDataDirName) throws IOException {
         BasicScreen screen = new BasicScreen(name);
-        File screenDir = modelBasePath.resolve(screenDataDirName).toFile();
+        String relativeDirPath = modelBasePath.toString();
+        String absoluteDirPath = Thread.currentThread().getContextClassLoader().getResource(relativeDirPath).getPath();
+        File screenDir = new File(absoluteDirPath + System.getProperty("file.separator") + screenDataDirName);
         File[] directoryListing = screenDir.listFiles();
         if (directoryListing != null) {
             for (File elementData: directoryListing) {
+                System.out.println("processing screen element " + elementData.getName());
                 screen.withElement(loadElementFromFile(elementData, screen));
             }
+        }
+        else {
+            throw new ScreenElementNotFoundException(String.format("No element files present in screen directory %s, screen directory %s", screenDir, screenDataDirName));
         }
         return screen;
     }
 
     private BasicElement loadElementFromFile(File elementData, BasicScreen screen) throws IOException {
         Properties props = loadFromFile(elementData);
-        BasicElement element = new BasicElement(elementData.getName(), screen);
+        BasicElement element = new BasicElement(elementData.getName().substring(0, elementData.getName().lastIndexOf(".")), screen);
         return element.withProperties(props);
     }
 
     private Properties loadFromFile(File elementData) throws IOException {
-        Properties props = new Properties();
         InputStream is = new FileInputStream(elementData);
+        return loadFromInputStream(is);
+    }
+
+    private Properties loadFromInputStream(InputStream is) throws IOException {
+        Properties props = new Properties();
         props.load(is);
         return props;
     }
 
     private Properties loadFromFileInPath(Path path) throws IOException {
-        return loadFromFile(path.toFile());
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(path.toString());
+        return loadFromInputStream(is);
     }
 }

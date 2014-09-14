@@ -1,5 +1,7 @@
 package com.cigniti.test.sutmodel;
 
+import com.cigniti.test.exceptions.PropertyNotFoundForElementException;
+
 import java.util.Properties;
 
 public class BasicElement {
@@ -31,4 +33,11 @@ public class BasicElement {
         return this;
     }
 
+    public String getProperty(String name) {
+        String prop = properties.getProperty(name);
+        if (prop == null) {
+            throw new PropertyNotFoundForElementException(String.format("Locator property not present in element: %s", getProperty("name")));
+        }
+        return prop;
+    }
 }
