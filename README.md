@@ -31,7 +31,9 @@ Prerequisites:
 
 Running tests:
 
-After cloning git repository, open project workspace and run from terminal:
+After cloning git repository, open project workspace and update properties files located in src/main/resources.
+
+Run from terminal:
 mvn test
 
 Test execution reports will be generated in <project-home-dir>/target/surefire-reports directory
