@@ -20,7 +20,6 @@ public class ApplicationModelLoader {
     public void loadModelFromFiles(ApplicationModel model) throws IOException {
         Properties screens = loadScreenDirsPaths();
         for (String screenName: screens.stringPropertyNames()) {
-            System.out.println("processing screen dir: " + screenName);
             BasicScreen screen = loadAllElements(screenName, screens.getProperty(screenName));
             model.loadScreen(screenName, screen);
         }
@@ -38,7 +37,6 @@ public class ApplicationModelLoader {
         File[] directoryListing = screenDir.listFiles();
         if (directoryListing != null) {
             for (File elementData: directoryListing) {
-                System.out.println("processing screen element " + elementData.getName());
                 screen.withElement(loadElementFromFile(elementData, screen));
             }
         }

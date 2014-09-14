@@ -1,6 +1,5 @@
-package com.cigniti.ebaytest;
+package com.cigniti.ebaytest.ebaytest;
 
-import com.cigniti.test.DemoFixture;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

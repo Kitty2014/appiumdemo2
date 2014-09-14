@@ -1,4 +1,4 @@
-package com.cigniti.ebaytest;
+package com.cigniti.ebaytest.ebaytest;
 
 import com.cigniti.test.DemoFixture;
 import com.cigniti.test.appiumsession.AppiumSessionManager;
@@ -18,12 +18,17 @@ public class EbayTest {
 
     @BeforeTest
     public void setup() throws IOException {
-        System.out.println("before...");
+
         sessionManager = new AppiumSessionManager();
-        fixture = new DemoFixture(System.getProperty("platformName", "Android"), System.getProperty("appName", "eBay"));
+
+        fixture = new DemoFixture(System.getProperty("platformName", "Android"),
+                                    System.getProperty("appName", "eBay"));
+
         sessionManager.initiateSession();
+
         loginScreen = fixture.getApplicationModel()
                 .getScreenByName("login.screen");
+
         homeSearchScreen = fixture.getApplicationModel()
                 .getScreenByName("homesearch.screen");
     }
