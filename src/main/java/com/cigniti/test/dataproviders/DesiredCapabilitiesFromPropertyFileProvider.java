@@ -3,7 +3,7 @@ package com.cigniti.test.dataproviders;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.IOException;
 
-public class DesiredCapabilitiesFromPropertyFileProvider extends PropertiesLoader implements DesiredCapabilitiesProvider {
+public class DesiredCapabilitiesFromPropertyFileProvider extends SystemPropertiesLoader implements DesiredCapabilitiesProvider {
 
     public DesiredCapabilitiesFromPropertyFileProvider() throws IOException {
         super("appium-capabilities.properties");

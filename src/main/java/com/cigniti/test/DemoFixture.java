@@ -1,26 +1,21 @@
 package com.cigniti.test;
 
-import static com.cigniti.test.dataproviders.DesiredCapabilitiesProviderFactory.getCapabilitiesProvider;
-
-import com.cigniti.test.dataproviders.ServerUrlProvider;
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.io.IOException;
+import com.cigniti.test.appiumsession.TestsExecutionContext;
+import com.cigniti.test.sutmodel.ApplicationModel;
+import com.cigniti.test.sutmodel.ApplicationModelFactory;
 
 public class DemoFixture {
 
-    private RemoteWebDriver driver;
+    private static TestsExecutionContext context = new TestsExecutionContext();
+    private static ApplicationModel model;
 
-    public void initiateSession() throws IOException {
-        driver = new AppiumDriver( ServerUrlProvider.provide(), getCapabilitiesProvider().provide());
+    public DemoFixture(String applicationName, String platformName) {
+        context.setApplicationName(applicationName);
+        context.setPlatformName(platformName);
+        setApplicationModel();
     }
 
-    public void cleanupSession() {
-        driver.quit();
+    private void setApplicationModel() {
+        model = ApplicationModelFactory.getModel(context);
     }
-
-
-
-
 }

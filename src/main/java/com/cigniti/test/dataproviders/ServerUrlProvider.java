@@ -6,7 +6,7 @@ import java.net.URL;
 public class ServerUrlProvider {
 
     public static URL provide() throws IOException {
-        PropertiesLoader loader = new PropertiesLoader("common.properties");
+        SystemPropertiesLoader loader = new SystemPropertiesLoader("common.properties");
         return new URL(loader.getProperty("appiumserver.url"));
     }
 
